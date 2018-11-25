@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 定义配置文件中使用的变量 -->
+	<!-- 设置别名 -->
+	<typeAliases>
+		<package name="com.gsau.pojo"/>
+	</typeAliases>
+	<!-- 指定当前使用数据库环境 -->
+	<environments default="oracle_developer">
+		<environment id="oracle_developer">
+			<transactionManager type="jdbc" /><!-- 定义事务管理器 -->
+			<dataSource type="JNDI"><!-- 数据源 -->
+			 <property name="data_source" value="java:comp/env/jdbc/db"/>
+			</dataSource>
+
+		</environment>
+	</environments>
+	<!-- 加载映射文件 -->
+	<mappers>
+		<mapper resource="com/gsau/mapper/UserMapper.xml"/>
+		<mapper resource="com/gsau/mapper/BookMapper.xml"/>
+		<mapper resource="com/gsau/mapper/OrderMapper.xml"/>
+		<mapper resource="com/gsau/mapper/OrderLineMapper.xml"/>
+	</mappers>
+</configuration>
+	

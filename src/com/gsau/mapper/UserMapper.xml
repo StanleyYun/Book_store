@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsau.mapper.UserMapper">
+
+	<select id="findByUserName" parameterType="String" resultType="User">
+		select * from users1 where username=#{username}
+	</select>
+	<insert id="saveUser" parameterType="User">
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">select
+			user_seq.nextVal from dual</selectKey>
+		insert into users1 values
+		(#{id},#{username},#{password},#{country},#{province},#{city},
+		#{addressone},#{addresstwo},#{postcode},#{familyPhone},#{officePhone}
+		,#{telPhone},#{email})
+	</insert>
+	<select id="checkUser" parameterType="String" resultType="User">
+		select * from users1 where username=#{param1} and password=#{param2}
+	</select>
+	<select id="checkUser1" parameterType="String" resultType="User">
+		select * from users1 where username=#{param1} 
+	</select>
+	<update id="UpdateUser" parameterType="User">
+	    update users1 set
+	    passWord=#{password},
+		country=#{country},
+		province=#{province},
+		city=#{city},
+		addressOne=#{addressone},
+		addressTwo=#{addresstwo},
+		postCode=#{postcode},
+		familyPhone=#{familyPhone},
+		officePhone=#{officePhone},
+		telPhone=#{telPhone},
+		email=#{email}
+		where id=#{id}
+
+	</update>
+</mapper>

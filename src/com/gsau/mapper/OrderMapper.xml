@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsau.mapper.OrderMapper">
+	<resultMap type="Book" id="bookResult">
+		<id property="id" column="bid" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="author" column="author" />
+		<result property="pagecode" column="pagecode" />
+		<result property="image" column="image"/>
+		<result property="info" column="info"/>
+		<result property="isbn" column="isbn"/>
+		<result property="category" column="category"/>
+		<result property="press" column="press"/>
+	</resultMap>
+	<resultMap type="Orderform" id="OrderformResult">
+	      <id property="id" column="id" />
+	      <result property="cost" column="cost"/>
+	      <result property="orderdate" column="orderdate"/>
+	</resultMap>
+	<resultMap type="Orderline" id="OrderResult">
+		<id property="id" column="id" />
+		<result property="num" column="num" />
+	    <association property="book" resultMap="bookResult"/>
+	    <association property="orderform" resultMap="OrderformResult"/>
+	</resultMap>
+	<insert id="saveOrder" parameterType="Orderform">
+   <selectKey resultType="int" keyProperty="id" order="BEFORE">select
+			orderform_seq.nextVal from dual</selectKey>
+		insert into orderform values(
+		#{id},#{cost},#{orderdate},#{user.id})
+	</insert>
+	<select id="selectOrderIdByUserId" parameterType="Orderform" resultType="Integer">     
+	select max(id) from orderform where userid=#{user.id}
+	</select>
+	<select id="findAllOrder" parameterType="int" resultType="Orderform">
+	select * from orderform where userid=#{userid}
+	</select>
+	<select id="findOrderLine" parameterType="int" resultMap="OrderResult">
+	select orderline.id,orderline.num,book.id bid,book.price,book.name,orderform.cost from orderline,book,orderform where book.id=orderline.bookid(+) and orderline.orderid=orderform.id and orderline.orderid=#{orderid}
+	</select>
+	<delete id="delorderLine" parameterType="int">
+		delete from orderline where orderid=#{orderid}
+	</delete>
+	<delete id="delorderform" parameterType="int">
+		delete from orderform where id=#{orderid}
+	</delete>
+</mapper>

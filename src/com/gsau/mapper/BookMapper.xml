@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsau.mapper.BookMapper">
+
+	<select id="findAllBook" resultType="Book">
+		select * from book 
+	</select>	
+	<select id="findCount" resultType="int">
+		select Count(*) from book 
+	</select>
+	<!-- 实现分页查询 -->
+	 <select id="SelectBook" resultType="Book" parameterType="int">
+		select * from(select a.*, ROWNUM  rn from (select * from book) a where ROWNUM  &lt; #{param1}) where rn > #{param2}
+	</select> 
+	<select id="findBookById" parameterType="int" resultType="Book">
+		select * from book where id=#{id}
+	</select>
+</mapper>
